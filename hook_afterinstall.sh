@@ -51,18 +51,27 @@ deploy_backend() {
   fi
 }
 
-deploy_frontend() {
-  echo -e "${YELLOW}Deploying frontend...${NC}"
+build_frontend() {
+  echo -e "${YELLOW}Building frontend (served by Nginx from dist/)...${NC}"
   cd "$BLOG_FRONTEND_PATH"
   npm install --production=false
   npm run build
 
+  # Frontend is NOT run on PM2 — Nginx serves /home/saas/app/frontend/dist
   if pm2 describe "$BLOG_FRONTEND_APP_NAME" >/dev/null 2>&1; then
-    echo -e "${YELLOW}Reloading $BLOG_FRONTEND_APP_NAME...${NC}"
-    pm2 reload "$BLOG_FRONTEND_APP_NAME" --update-env
-  else
-    echo -e "${YELLOW}Starting $BLOG_FRONTEND_APP_NAME...${NC}"
-    pm2 start "$ECOSYSTEM_FILE" --only "$BLOG_FRONTEND_APP_NAME"
+    echo -e "${YELLOW}Removing $BLOG_FRONTEND_APP_NAME from PM2 (Nginx serves static build)...${NC}"
+    pm2 delete "$BLOG_FRONTEND_APP_NAME"
+  fi
+
+  echo -e "${GREEN}Frontend build ready at $BLOG_FRONTEND_PATH/dist${NC}"
+
+  if command -v nginx >/dev/null 2>&1; then
+    if sudo -n nginx -t >/dev/null 2>&1; then
+      sudo nginx -s reload
+      echo -e "${GREEN}Nginx reloaded.${NC}"
+    else
+      echo -e "${YELLOW}Run manually: sudo nginx -t && sudo systemctl reload nginx${NC}"
+    fi
   fi
 }
 
@@ -73,7 +82,7 @@ else
 fi
 
 if [ -d "$BLOG_FRONTEND_PATH" ]; then
-  deploy_frontend
+  build_frontend
 else
   echo -e "${RED}WARNING: Frontend path not found: $BLOG_FRONTEND_PATH${NC}"
 fi
