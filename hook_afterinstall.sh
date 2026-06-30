@@ -9,9 +9,9 @@ NC='\033[0m'
 # Must match appspec.yml destination
 TEMP_PROJECT_PATH="/home/saas/temp-blog-platform"
 PROJECT_PATH="/home/saas/app"
-BLOG_BACKEND_PATH="$PROJECT_PATH/backend"
-BLOG_FRONTEND_PATH="$PROJECT_PATH/frontend"
-ECOSYSTEM_FILE="$PROJECT_PATH/pm2StartSaaSCommonBackend.config.js"
+BLOG_BACKEND_PATH="$PROJECT_PATH/blog-backend"
+BLOG_FRONTEND_PATH="$PROJECT_PATH/blog-frontend"
+ECOSYSTEM_FILE="$PROJECT_PATH/blog-backend/pm2StartBlogPlatform.config.js"
 BLOG_BACKEND_APP_NAME="blog-backend"
 BLOG_FRONTEND_APP_NAME="blog-frontend"
 
