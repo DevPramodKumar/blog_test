@@ -12,7 +12,6 @@ const PORT = process.env.PORT || 5000;
 
 connectDB().catch((err) => {
   console.error('MongoDB connection error:', err.message);
-  console.error('API will start but database operations will fail until MongoDB is available');
 });
 
 app.use(
