@@ -8,14 +8,12 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 TEMP_PROJECT_PATH="/home/saas/temp-saas-common-backend"
-PROJECT_PATH="/home/saas/app/saas-common-backend"
-SCHOOL_BACKEND_PATH="$PROJECT_PATH/school-backend"
-ONBOARDING_BACKEND_PATH="$PROJECT_PATH/onboarding-backend"
-INVENTORY_BACKEND_PATH="$PROJECT_PATH/inventory-backend"
+PROJECT_PATH="/home/saas/app"
+BLOG_BACKEND_PATH="$PROJECT_PATH/blog-backend"
+BLOG_FRONTEND_PATH="$PROJECT_PATH/blog-frontend"
 ECOSYSTEM_FILE="/home/saas/app/saas-common-backend/pm2StartSaaSCommonBackend.config.js"
-SCHOOL_BACKEND_APP_NAME="school-backend"
-ONBOARDING_BACKEND_APP_NAME="onboarding-backend"
-INVENTORY_BACKEND_APP_NAME="inventory-backend"
+BLOG_BACKEND_APP_NAME="blog-backend"
+BLOG_FRONTEND_APP_NAME="blog-frontend"
 
 echo -e "${YELLOW}************** Backend Deployment Start **************${NC}"
 

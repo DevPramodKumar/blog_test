@@ -63,7 +63,15 @@ const PostDetail = () => {
 
   return (
     <article className="post-detail">
-      <Advertisement position="top-banner" />
+      <div className="container" style={{ paddingTop: '1.5rem' }}>
+        <Link to="/" className="post-back-link">
+          ← Back to articles
+        </Link>
+      </div>
+
+      <div className="container">
+        <Advertisement position="top-banner" />
+      </div>
 
       <div className="container post-detail-layout">
         <main className="post-detail-main">

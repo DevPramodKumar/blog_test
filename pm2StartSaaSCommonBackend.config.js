@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'blog-backend',
-      cwd: '/home/saas/app/saas-common-backend/blog-backend',
+      cwd: '/home/saas/app/blog-backend',
       script: 'npm',
       args: 'start',
       interpreter: 'none',
@@ -18,7 +18,7 @@ module.exports = {
     },
     {
       name: 'blog-frontend',
-      cwd: '/home/saas/app/saas-common-backend/blog-frontend',
+      cwd: '/home/saas/app/blog-frontend',
       script: 'npm',
       args: 'start',
       interpreter: 'none',
