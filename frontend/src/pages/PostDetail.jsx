@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { postsAPI } from '../services/api';
 import BlogCard from '../components/BlogCard';
 import Advertisement from '../components/Advertisement';
+import { resolveImageUrl } from '../utils/imageUrl';
 import './PostDetail.css';
 
 const PostDetail = () => {
@@ -60,6 +61,7 @@ const PostDetail = () => {
   const midPoint = Math.ceil(contentParts.length / 2);
   const firstHalf = contentParts.slice(0, midPoint).join('\n\n');
   const secondHalf = contentParts.slice(midPoint).join('\n\n');
+  const imageUrl = resolveImageUrl(post.image);
 
   return (
     <article className="post-detail">
@@ -75,9 +77,9 @@ const PostDetail = () => {
 
       <div className="container post-detail-layout">
         <main className="post-detail-main">
-          {post.image && (
+          {imageUrl && (
             <div className="post-detail-image">
-              <img src={post.image} alt={post.title} />
+              <img src={imageUrl} alt={post.title} />
             </div>
           )}
 

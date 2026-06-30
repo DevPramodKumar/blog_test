@@ -3,6 +3,7 @@ import { postsAPI, uploadAPI } from '../../services/api';
 import Modal from '../../components/Modal';
 import Pagination from '../../components/Pagination';
 import { Input, Textarea, Select, ImageUpload } from '../../components/Form';
+import { resolveImageUrl } from '../../utils/imageUrl';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -67,7 +68,7 @@ const Posts = () => {
       status: post.status,
     });
     setImageFile(null);
-    setImagePreview(post.image || '');
+    setImagePreview(resolveImageUrl(post.image || ''));
     setFormError('');
     setModalOpen(true);
   };

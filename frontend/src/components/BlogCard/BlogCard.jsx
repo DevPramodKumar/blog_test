@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { resolveImageUrl } from '../../utils/imageUrl';
 import './BlogCard.css';
 
 const PLACEHOLDER_GRADIENTS = [
@@ -18,12 +19,13 @@ const BlogCard = ({ post }) => {
     });
 
   const gradientIndex = post.title.length % PLACEHOLDER_GRADIENTS.length;
+  const imageUrl = resolveImageUrl(post.image);
 
   return (
     <article className="blog-card card">
       <Link to={`/post/${post.id}`} className="blog-card-image">
-        {post.image ? (
-          <img src={post.image} alt={post.title} loading="lazy" />
+        {imageUrl ? (
+          <img src={imageUrl} alt={post.title} loading="lazy" />
         ) : (
           <div
             className="blog-card-placeholder"
