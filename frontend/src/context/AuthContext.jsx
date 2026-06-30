@@ -59,7 +59,6 @@ export const AuthProvider = ({ children }) => {
     try {
       await authAPI.logout();
     } catch {
-      // Continue logout even if API fails
     }
     localStorage.removeItem('token');
     localStorage.removeItem('user');

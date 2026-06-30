@@ -11,7 +11,6 @@ export const optionalAuth = async (req, _res, next) => {
     const user = await User.findById(decoded.id);
     if (user) req.user = user;
   } catch {
-    // Ignore invalid tokens for optional auth
   }
   next();
 };

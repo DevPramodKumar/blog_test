@@ -48,8 +48,7 @@ const startServer = async () => {
   try {
     await connectDB();
   } catch (err) {
-    console.error('FATAL: MongoDB connection failed:', err.message);
-    console.error('Check MONGODB_URI in backend/.env and ensure MongoDB is running.');
+    console.error('MongoDB connection failed:', err.message);
     process.exit(1);
   }
 
@@ -59,9 +58,7 @@ const startServer = async () => {
 
   server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
-      console.error(`FATAL: Port ${PORT} is already in use. Stop the other process first:`);
-      console.error(`  sudo ss -tlnp | grep :${PORT}`);
-      console.error(`  pm2 list`);
+      console.error(`Port ${PORT} is already in use`);
     }
     process.exit(1);
   });

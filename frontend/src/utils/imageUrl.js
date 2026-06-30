@@ -1,7 +1,3 @@
-/**
- * Turn stored image paths into browser-loadable URLs.
- * Supports external URLs and uploaded files at /uploads/...
- */
 export function resolveImageUrl(image) {
   if (!image) return '';
 

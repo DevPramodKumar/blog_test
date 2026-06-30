@@ -61,7 +61,6 @@ async function seed() {
   const users = prepareUsers(data.users);
   const posts = preparePosts(data.posts);
 
-  // Use native insert to keep hashed passwords and ObjectIds unchanged.
   await db.collection('users').insertMany(users);
   await db.collection('posts').insertMany(posts);
 
@@ -73,22 +72,7 @@ async function seed() {
 }
 
 seed().catch(async (error) => {
-  const uri = process.env.MONGODB_URI || '';
-  const masked = uri.replace(/:([^:@/]+)@/, ':****@');
-
   console.error('Seed failed:', error.message);
-  if (error.message.includes('Authentication failed')) {
-    console.error('');
-    console.error('MongoDB auth error. Check backend/.env MONGODB_URI');
-    if (uri) console.error('Current URI:', masked);
-    console.error('');
-    console.error('Expected (match docker-compose password):');
-    console.error('MONGODB_URI=mongodb://admin:admin123@127.0.0.1:27017/blog?authSource=admin');
-    console.error('');
-    console.error('Test on server:');
-    console.error('npm run db:check');
-    console.error('docker exec mongodb mongosh -u admin -p admin123 --authenticationDatabase admin --eval "db.adminCommand({ping:1})"');
-  }
   await mongoose.disconnect().catch(() => {});
   process.exit(1);
 });

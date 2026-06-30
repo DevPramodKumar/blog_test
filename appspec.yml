@@ -7,7 +7,6 @@ files:
 hooks:
   AfterInstall:
     - location: hook_afterinstall.sh
-      # timeout: 60
       runas: saas
     - location: hook_afterinstall_cleanup.sh
       timeout: 60
