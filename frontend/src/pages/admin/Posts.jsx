@@ -130,7 +130,7 @@ const Posts = () => {
   };
 
   return (
-    <div>
+    <div className="admin-page">
       <div className="page-header">
         <h1 className="page-title">Posts Management</h1>
         <button className="btn btn-primary" onClick={openCreate}>
@@ -138,25 +138,33 @@ const Posts = () => {
         </button>
       </div>
 
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search posts..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          style={{ padding: '0.625rem', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)' }}
+      <div className="admin-toolbar card">
+        <form
+          className="search-bar"
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchPosts(1);
+          }}
         >
-          <option value="">All Status</option>
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
-        </select>
-        <button className="btn btn-secondary" onClick={() => fetchPosts(1)}>
-          Filter
-        </button>
+          <input
+            type="text"
+            placeholder="Search posts..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            aria-label="Filter by status"
+          >
+            <option value="">All Status</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+          <button type="submit" className="btn btn-secondary">
+            Filter
+          </button>
+        </form>
       </div>
 
       {error && <div className="alert alert-error">{error}</div>}
@@ -166,43 +174,51 @@ const Posts = () => {
           <div className="spinner" />
         </div>
       ) : (
-        <div className="card table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {posts.map((post) => (
-                <tr key={post.id}>
-                  <td>{post.title}</td>
-                  <td>{post.author?.name || '—'}</td>
-                  <td>
-                    <span className={`badge badge-${post.status}`}>{post.status}</span>
-                  </td>
-                  <td>{new Date(post.createdAt).toLocaleDateString()}</td>
-                  <td>
-                    <div className="actions">
-                      <button className="btn btn-secondary btn-sm" onClick={() => openEdit(post)}>
-                        Edit
-                      </button>
-                      <button className="btn btn-secondary btn-sm" onClick={() => toggleStatus(post)}>
-                        {post.status === 'published' ? 'Unpublish' : 'Publish'}
-                      </button>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(post.id)}>
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="card admin-table-card">
+          <div className="table-wrapper">
+            {posts.length === 0 ? (
+              <div className="admin-table-empty">
+                <p>No posts found. Try a different search or create a new post.</p>
+              </div>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {posts.map((post) => (
+                    <tr key={post.id}>
+                      <td className="cell-title">{post.title}</td>
+                      <td>{post.author?.name || '—'}</td>
+                      <td>
+                        <span className={`badge badge-${post.status}`}>{post.status}</span>
+                      </td>
+                      <td>{new Date(post.createdAt).toLocaleDateString()}</td>
+                      <td>
+                        <div className="actions">
+                          <button className="btn btn-secondary btn-sm" onClick={() => openEdit(post)}>
+                            Edit
+                          </button>
+                          <button className="btn btn-secondary btn-sm" onClick={() => toggleStatus(post)}>
+                            {post.status === 'published' ? 'Unpublish' : 'Publish'}
+                          </button>
+                          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(post.id)}>
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       )}
 

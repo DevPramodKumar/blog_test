@@ -1,12 +1,145 @@
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
 .page-header .page-title {
   margin-bottom: 0;
+}
+
+.admin-toolbar {
+  padding: 1.25rem 1.5rem;
+}
+
+.admin-toolbar .search-bar {
+  margin: 0;
+}
+
+.search-bar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-bar input {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.8rem 1.1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  transition: all var(--transition);
+  font-size: 0.9375rem;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  background: var(--color-surface);
+}
+
+.search-bar select {
+  padding: 0.8rem 1.1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font-size: 0.9375rem;
+  min-width: 150px;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: all var(--transition);
+}
+
+.search-bar select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  background: var(--color-surface);
+}
+
+.admin-table-card {
+  overflow: hidden;
+}
+
+.admin-table-card .table-wrapper {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.admin-table-card table th {
+  background: #f1f5f9;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-table-card table td {
+  padding: 1.1rem 1.5rem;
+  vertical-align: middle;
+}
+
+.admin-table-card table tbody tr {
+  transition: background var(--transition);
+}
+
+.admin-table-card table tbody tr:hover td {
+  background: #f8fafc;
+}
+
+.admin-table-empty {
+  padding: 3.5rem 2rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+
+.admin-table-empty p {
+  margin: 0;
+}
+
+.admin-page .pagination {
+  margin-top: 0.25rem;
+}
+
+.admin-page .alert {
+  margin: 0;
+}
+
+.admin-page .loading-spinner {
+  padding: 3rem 0;
+}
+
+.cell-title {
+  font-weight: 600;
+  color: var(--color-text);
+  max-width: 280px;
+}
+
+@media (max-width: 768px) {
+  .admin-toolbar {
+    padding: 1rem;
+  }
+
+  .search-bar input,
+  .search-bar select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-table-card table th,
+  .admin-table-card table td {
+    padding: 0.875rem 1rem;
+  }
 }

@@ -88,7 +88,7 @@ const Users = () => {
   };
 
   return (
-    <div>
+    <div className="admin-page">
       <div className="page-header">
         <h1 className="page-title">Users Management</h1>
         <button className="btn btn-primary" onClick={openCreate}>
@@ -96,23 +96,25 @@ const Users = () => {
         </button>
       </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          fetchUsers(1);
-        }}
-        className="search-bar"
-      >
-        <input
-          type="text"
-          placeholder="Search users..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button type="submit" className="btn btn-secondary">
-          Search
-        </button>
-      </form>
+      <div className="admin-toolbar card">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchUsers(1);
+          }}
+          className="search-bar"
+        >
+          <input
+            type="text"
+            placeholder="Search users..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button type="submit" className="btn btn-secondary">
+            Search
+          </button>
+        </form>
+      </div>
 
       {error && <div className="alert alert-error">{error}</div>}
 
@@ -121,42 +123,50 @@ const Users = () => {
           <div className="spinner" />
         </div>
       ) : (
-        <div className="card table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Created</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <span className={`badge ${user.role === 'admin' ? 'badge-admin' : ''}`}>
-                      {user.role}
-                    </span>
-                  </td>
-                  <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                  <td>
-                    <div className="actions">
-                      <button className="btn btn-secondary btn-sm" onClick={() => openEdit(user)}>
-                        Edit
-                      </button>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(user.id)}>
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="card admin-table-card">
+          <div className="table-wrapper">
+            {users.length === 0 ? (
+              <div className="admin-table-empty">
+                <p>No users found. Try a different search or add a new user.</p>
+              </div>
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>
+                        <span className={`badge ${user.role === 'admin' ? 'badge-admin' : ''}`}>
+                          {user.role}
+                        </span>
+                      </td>
+                      <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                      <td>
+                        <div className="actions">
+                          <button className="btn btn-secondary btn-sm" onClick={() => openEdit(user)}>
+                            Edit
+                          </button>
+                          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(user.id)}>
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       )}
 

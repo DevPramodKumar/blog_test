@@ -10,10 +10,12 @@ ECOSYSTEM_FILE="$PROJECT_PATH/pm2StartSaaSCommonBackend.config.js"
 echo "==> Syncing files..."
 mkdir -p "$PROJECT_PATH"
 rsync -avh --delete \
+  --filter='P backend/uploads/' \
+  --filter='P backend/uploads/**' \
   --exclude='.git' \
   --exclude='.env' \
   --exclude='node_modules' \
-  --exclude='backend/uploads' \
+  --exclude='backend/uploads/' \
   --exclude='frontend/dist' \
   --exclude='hook_afterinstall.sh' \
   --exclude='hook_afterinstall_cleanup.sh' \
