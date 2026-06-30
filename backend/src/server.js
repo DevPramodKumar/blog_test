@@ -12,12 +12,12 @@ const PORT = process.env.PORT || 5000;
 
 connectDB().catch((err) => {
   console.error('MongoDB connection error:', err.message);
-  process.exit(1);
+  console.error('API will start but database operations will fail until MongoDB is available');
 });
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: process.env.CORS_ORIGIN || true,
     credentials: true,
   })
 );
@@ -35,6 +35,6 @@ app.use('/api/posts', postRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
 });

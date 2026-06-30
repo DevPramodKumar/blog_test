@@ -49,6 +49,23 @@ deploy_backend() {
     echo -e "${YELLOW}Starting $BLOG_BACKEND_APP_NAME...${NC}"
     pm2 start "$ECOSYSTEM_FILE" --only "$BLOG_BACKEND_APP_NAME"
   fi
+
+  sleep 2
+
+  BACKEND_PORT=5001
+  if [ -f "$BLOG_BACKEND_PATH/.env" ]; then
+    BACKEND_PORT=$(grep -E '^PORT=' "$BLOG_BACKEND_PATH/.env" | cut -d= -f2 | tr -d '[:space:]')
+    BACKEND_PORT=${BACKEND_PORT:-5001}
+  fi
+
+  if curl -sf "http://127.0.0.1:${BACKEND_PORT}/api/health" >/dev/null; then
+    echo -e "${GREEN}Backend health check passed on port ${BACKEND_PORT}.${NC}"
+  else
+    echo -e "${RED}ERROR: Backend not responding on http://127.0.0.1:${BACKEND_PORT}/api/health${NC}"
+    echo -e "${RED}Check: pm2 logs $BLOG_BACKEND_APP_NAME --lines 30${NC}"
+    echo -e "${RED}Tip: PORT 5000 may be used by another app. Set PORT=5001 in backend/.env${NC}"
+    exit 1
+  fi
 }
 
 build_frontend() {
