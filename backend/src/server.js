@@ -35,6 +35,15 @@ app.use('/api/posts', postRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://0.0.0.0:${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`FATAL: Port ${PORT} is already in use. Stop the other process first:`);
+    console.error(`  sudo ss -tlnp | grep :${PORT}`);
+    console.error(`  pm2 list`);
+  }
+  process.exit(1);
 });
