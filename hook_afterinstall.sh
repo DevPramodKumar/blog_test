@@ -77,21 +77,26 @@ build_frontend() {
   fi
 }
 
-# Nginx runs as www-data — it must traverse /home/saas/... and read dist/
+# Nginx runs as www-data — must traverse /home/saas/... and read dist/
 fix_nginx_permissions() {
   echo -e "${YELLOW}Fixing file permissions for Nginx (www-data)...${NC}"
 
   SAAS_HOME="/home/saas"
 
+  if getent group saas >/dev/null 2>&1; then
+    sudo usermod -aG saas www-data 2>/dev/null || true
+  fi
+
   chmod o+x "$SAAS_HOME" 2>/dev/null || true
   chmod o+x "$PROJECT_PATH"
   chmod o+x "$BLOG_FRONTEND_PATH"
-  chmod -R o+rX "$BLOG_FRONTEND_PATH/dist"
 
-  # Also allow via group if www-data is in saas group (recommended one-time setup)
-  if getent group saas >/dev/null 2>&1; then
-    chgrp -R saas "$BLOG_FRONTEND_PATH/dist" 2>/dev/null || true
+  if [ -d "$BLOG_FRONTEND_PATH/dist" ]; then
+    chown -R saas:saas "$BLOG_FRONTEND_PATH/dist" 2>/dev/null || true
     chmod -R g+rX "$BLOG_FRONTEND_PATH/dist"
+    chmod -R o+rX "$BLOG_FRONTEND_PATH/dist"
+  else
+    echo -e "${RED}WARNING: dist/ not found at $BLOG_FRONTEND_PATH/dist${NC}"
   fi
 
   echo -e "${GREEN}Permissions updated for Nginx static file access.${NC}"
