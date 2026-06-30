@@ -22,11 +22,10 @@ rsync -avh --delete \
 echo "==> Backend: npm install + PM2 start..."
 cd "$BACKEND_PATH"
 npm install
-if pm2 describe blog-backend >/dev/null 2>&1; then
-  pm2 reload blog-backend
-else
-  pm2 start "$ECOSYSTEM_FILE" --only blog-backend
-fi
+pm2 delete blog-backend 2>/dev/null || true
+pkill -f "$BACKEND_PATH/src/server.js" 2>/dev/null || true
+sleep 2
+pm2 start "$ECOSYSTEM_FILE" --only blog-backend
 
 echo "==> Frontend: npm install + build..."
 cd "$FRONTEND_PATH"

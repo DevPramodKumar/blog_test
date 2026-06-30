@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "_id": "6a43a2f38de5e46969eabff0",
+      "name": "Admin User",
+      "email": "admin@test.com",
+      "password": "$2a$12$SiOtgkAtBitiOhGhq38LIuoedfxua9mK18cBQ4cMYuGWhlMJPR6Ru",
+      "role": "admin",
+      "createdAt": "2026-06-30T11:05:23.379Z",
+      "updatedAt": "2026-06-30T11:05:23.379Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a43a49e8de5e46969eac00c",
+      "name": "Pramod Kumar",
+      "email": "pramod.kumar@ezeetechnosys.com",
+      "password": "$2a$12$ZRVwvOD..eHJlek.S5tYmOUYD3bbPTdrELDvapGQk21l.0MgWl8cS",
+      "role": "admin",
+      "createdAt": "2026-06-30T11:12:30.958Z",
+      "updatedAt": "2026-06-30T11:12:30.958Z",
+      "__v": 0
+    }
+  ],
+  "posts": [
+    {
+      "_id": "6a43a3038de5e46969eabff5",
+      "title": "Welcome to BlogPlatform",
+      "slug": "welcome-to-blogplatform",
+      "description": "Your first blog post on our platform",
+      "content": "This is the full content of the welcome post.\n\nBlogPlatform is a modern blogging solution built with React and Node.js.",
+      "image": "https://images.unsplash.com/photo-1499750310107-5fef28fd6663?w=800",
+      "author": "6a43a2f38de5e46969eabff0",
+      "status": "published",
+      "createdAt": "2026-06-30T11:05:39.837Z",
+      "updatedAt": "2026-06-30T11:05:39.837Z",
+      "__v": 0
+    },
+    {
+      "_id": "6a43a96f8de5e46969eac088",
+      "title": "Hello This is the test",
+      "slug": "hello-this-is-the-test",
+      "description": "dgdfhftu rdrdh",
+      "content": "wt4ete retre reeteyr",
+      "image": "",
+      "author": "6a43a2f38de5e46969eabff0",
+      "status": "published",
+      "createdAt": "2026-06-30T11:33:03.294Z",
+      "updatedAt": "2026-06-30T11:33:03.294Z",
+      "__v": 0
+    }
+  ]
+}
