@@ -52,10 +52,10 @@ deploy_backend() {
 
   sleep 2
 
-  BACKEND_PORT=5001
+  BACKEND_PORT=5000
   if [ -f "$BLOG_BACKEND_PATH/.env" ]; then
     BACKEND_PORT=$(grep -E '^PORT=' "$BLOG_BACKEND_PATH/.env" | cut -d= -f2 | tr -d '[:space:]')
-    BACKEND_PORT=${BACKEND_PORT:-5001}
+    BACKEND_PORT=${BACKEND_PORT:-5000}
   fi
 
   if curl -sf "http://127.0.0.1:${BACKEND_PORT}/api/health" >/dev/null; then
@@ -63,7 +63,6 @@ deploy_backend() {
   else
     echo -e "${RED}ERROR: Backend not responding on http://127.0.0.1:${BACKEND_PORT}/api/health${NC}"
     echo -e "${RED}Check: pm2 logs $BLOG_BACKEND_APP_NAME --lines 30${NC}"
-    echo -e "${RED}Tip: PORT 5000 may be used by another app. Set PORT=5001 in backend/.env${NC}"
     exit 1
   fi
 }
