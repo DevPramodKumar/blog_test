@@ -57,6 +57,8 @@ build_frontend() {
   npm install --production=false
   npm run build
 
+  fix_nginx_permissions
+
   # Frontend is NOT run on PM2 — Nginx serves /home/saas/app/frontend/dist
   if pm2 describe "$BLOG_FRONTEND_APP_NAME" >/dev/null 2>&1; then
     echo -e "${YELLOW}Removing $BLOG_FRONTEND_APP_NAME from PM2 (Nginx serves static build)...${NC}"
@@ -73,6 +75,26 @@ build_frontend() {
       echo -e "${YELLOW}Run manually: sudo nginx -t && sudo systemctl reload nginx${NC}"
     fi
   fi
+}
+
+# Nginx runs as www-data — it must traverse /home/saas/... and read dist/
+fix_nginx_permissions() {
+  echo -e "${YELLOW}Fixing file permissions for Nginx (www-data)...${NC}"
+
+  SAAS_HOME="/home/saas"
+
+  chmod o+x "$SAAS_HOME" 2>/dev/null || true
+  chmod o+x "$PROJECT_PATH"
+  chmod o+x "$BLOG_FRONTEND_PATH"
+  chmod -R o+rX "$BLOG_FRONTEND_PATH/dist"
+
+  # Also allow via group if www-data is in saas group (recommended one-time setup)
+  if getent group saas >/dev/null 2>&1; then
+    chgrp -R saas "$BLOG_FRONTEND_PATH/dist" 2>/dev/null || true
+    chmod -R g+rX "$BLOG_FRONTEND_PATH/dist"
+  fi
+
+  echo -e "${GREEN}Permissions updated for Nginx static file access.${NC}"
 }
 
 if [ -d "$BLOG_BACKEND_PATH" ]; then
