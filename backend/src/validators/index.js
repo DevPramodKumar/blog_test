@@ -25,11 +25,25 @@ export const userUpdateValidation = [
   body('role').optional().isIn(['user', 'admin']).withMessage('Role must be user or admin'),
 ];
 
+const isValidImage = (value) => {
+  if (!value) return true;
+  if (value.startsWith('/uploads/')) return true;
+  try {
+    const url = new URL(value);
+    return ['http:', 'https:'].includes(url.protocol);
+  } catch {
+    return false;
+  }
+};
+
 export const postValidation = [
   body('title').trim().notEmpty().withMessage('Title is required').isLength({ max: 200 }),
   body('description').trim().notEmpty().withMessage('Description is required').isLength({ max: 500 }),
   body('content').trim().notEmpty().withMessage('Content is required'),
-  body('image').optional({ values: 'falsy' }).isURL().withMessage('Image must be a valid URL'),
+  body('image')
+    .optional({ values: 'falsy' })
+    .custom((value) => isValidImage(value))
+    .withMessage('Image must be a valid URL or uploaded file'),
   body('status').optional().isIn(['draft', 'published']).withMessage('Status must be draft or published'),
 ];
 
@@ -37,6 +51,9 @@ export const postUpdateValidation = [
   body('title').optional().trim().notEmpty().withMessage('Title cannot be empty'),
   body('description').optional().trim().notEmpty().withMessage('Description cannot be empty'),
   body('content').optional().trim().notEmpty().withMessage('Content cannot be empty'),
-  body('image').optional({ values: 'falsy' }).isURL().withMessage('Image must be a valid URL'),
+  body('image')
+    .optional({ values: 'falsy' })
+    .custom((value) => isValidImage(value))
+    .withMessage('Image must be a valid URL or uploaded file'),
   body('status').optional().isIn(['draft', 'published']).withMessage('Status must be draft or published'),
 ];

@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { postsAPI } from '../../services/api';
+import { postsAPI, uploadAPI } from '../../services/api';
 import Modal from '../../components/Modal';
 import Pagination from '../../components/Pagination';
-import { Input, Textarea, Select } from '../../components/Form';
+import { Input, Textarea, Select, ImageUpload } from '../../components/Form';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -22,6 +22,8 @@ const Posts = () => {
   });
   const [formError, setFormError] = useState('');
   const [saving, setSaving] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
 
   const fetchPosts = useCallback(async (page = 1) => {
     setLoading(true);
@@ -49,6 +51,8 @@ const Posts = () => {
   const openCreate = () => {
     setEditingPost(null);
     setForm({ title: '', description: '', content: '', image: '', status: 'draft' });
+    setImageFile(null);
+    setImagePreview('');
     setFormError('');
     setModalOpen(true);
   };
@@ -62,8 +66,18 @@ const Posts = () => {
       image: post.image || '',
       status: post.status,
     });
+    setImageFile(null);
+    setImagePreview(post.image || '');
     setFormError('');
     setModalOpen(true);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
   };
 
   const handleSave = async (e) => {
@@ -72,10 +86,18 @@ const Posts = () => {
     setSaving(true);
 
     try {
+      let imageUrl = form.image;
+      if (imageFile) {
+        const { data } = await uploadAPI.uploadImage(imageFile);
+        imageUrl = data.data.url;
+      }
+
+      const payload = { ...form, image: imageUrl };
+
       if (editingPost) {
-        await postsAPI.update(editingPost.id, form);
+        await postsAPI.update(editingPost.id, payload);
       } else {
-        await postsAPI.create(form);
+        await postsAPI.create(payload);
       }
       setModalOpen(false);
       fetchPosts(pagination.page);
@@ -218,12 +240,10 @@ const Posts = () => {
             rows={8}
             required
           />
-          <Input
-            label="Image URL"
-            name="image"
-            value={form.image}
-            onChange={(e) => setForm({ ...form, image: e.target.value })}
-            placeholder="https://example.com/image.jpg"
+          <ImageUpload
+            label="Image"
+            preview={imagePreview}
+            onChange={handleImageChange}
           />
           <Select
             label="Status"

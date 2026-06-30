@@ -1,1 +1,1 @@
-export { Input, Textarea, Select } from './FormFields';
+export { Input, Textarea, Select, ImageUpload } from './FormFields';

@@ -28,4 +28,17 @@ const Select = ({ label, error, options, ...props }) => (
   </div>
 );
 
-export { Input, Textarea, Select };
+const ImageUpload = ({ label, preview, onChange, error, accept = 'image/jpeg,image/png,image/gif,image/webp' }) => (
+  <div className="form-group">
+    {label && <label>{label}</label>}
+    <input type="file" accept={accept} onChange={onChange} className="file-input" />
+    {preview && (
+      <div className="image-preview-wrap">
+        <img src={preview} alt="Preview" className="image-preview" />
+      </div>
+    )}
+    {error && <p className="form-error">{error}</p>}
+  </div>
+);
+
+export { Input, Textarea, Select, ImageUpload };

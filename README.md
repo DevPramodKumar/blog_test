@@ -206,15 +206,8 @@ MIT
 Default Admin Account (test)
 Field	Value
 Email
-admin@test.com
+demo@gmai.com
 Password
-admin123
+123456
 Name
 Admin User
-
-Aapka account (bhi admin hai)
-Field	Value
-Email
-pramod.kumar@ezeetechnosys.com
-Password
-jo aapne register karte waqt set kiya tha
