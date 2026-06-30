@@ -1,0 +1,30 @@
+.home-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.home-main {
+  min-width: 0;
+}
+
+.home-header {
+  margin-bottom: 1.5rem;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .home-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .home-sidebar {
+    order: -1;
+  }
+}
