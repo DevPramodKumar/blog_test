@@ -62,7 +62,7 @@ npm install
 npm run dev
 ```
 
-The API runs at `http://localhost:5000`.
+The API runs at `http://localhost:5001`.
 
 ### 3. Setup Frontend
 
@@ -79,7 +79,7 @@ npm run dev
 ### Backend (`backend/.env`)
 
 ```
-PORT=5000
+PORT=5001
 NODE_ENV=development
 MONGODB_URI=mongodb://admin:admin123@localhost:27017/blog?authSource=admin
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
@@ -90,7 +90,7 @@ CORS_ORIGIN=http://localhost:5173
 ### Frontend (`frontend/.env`)
 
 ```
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=http://localhost:5001/api
 ```
 
 ## Advertisement Placements
