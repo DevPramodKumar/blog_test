@@ -1,7 +1,5 @@
 # Blog Platform
 
-A full-stack blogging web application with user authentication, admin panel, and Google GPT test advertisement integration.
-
 ## Tech Stack
 
 | Layer | Technologies |
@@ -39,37 +37,23 @@ blog_test/
 │   │   └── main.jsx
 │   ├── .env.example
 │   └── package.json
-├── docker-compose.yml       # MongoDB container
 └── README.md
 ```
 
 ## Architecture
-
-```
-┌─────────────┐     REST API      ┌─────────────┐     Mongoose     ┌──────────┐
-│  React SPA  │ ◄──────────────► │  Express.js │ ◄──────────────► │ MongoDB  │
-│  (Vite)     │     JWT Auth     │  REST API   │                  │          │
-└─────────────┘                  └─────────────┘                  └──────────┘
-       │
-       ▼
- Google GPT Test Ads
+              
 ```
 
 ## Prerequisites
 
 - Node.js 18+
-- Docker (for MongoDB) or a running MongoDB instance
+- MongoDB
 - npm
 
-## Quick Start
-
-### 1. Start MongoDB
-
-```bash
-docker compose up -d
+## Quick Sart
 ```
 
-### 2. Setup Backend
+### 1. Setup Backend
 
 ```bash
 cd backend
@@ -89,40 +73,6 @@ npm install
 npm run dev
 ```
 
-The app runs at `http://localhost:5173`.
-
-## API Endpoints
-
-### Authentication
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register new user |
-| POST | `/api/auth/login` | Login |
-| POST | `/api/auth/logout` | Logout (invalidate token) |
-| GET | `/api/auth/me` | Get current user |
-
-### Users (Admin Only)
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/users` | List users (search, pagination) |
-| GET | `/api/users/:id` | Get user by ID |
-| POST | `/api/users` | Create user |
-| PUT | `/api/users/:id` | Update user |
-| DELETE | `/api/users/:id` | Delete user |
-
-### Posts
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/posts` | List posts (search, filter, pagination) |
-| GET | `/api/posts/:id` | Get post by ID |
-| GET | `/api/posts/:id/related` | Get related posts |
-| POST | `/api/posts` | Create post (auth required) |
-| PUT | `/api/posts/:id` | Update post (auth required) |
-| DELETE | `/api/posts/:id` | Delete post (admin only) |
-| GET | `/api/posts/dashboard/stats` | Dashboard stats (admin only) |
 
 ## Environment Variables
 
@@ -147,23 +97,6 @@ VITE_API_URL=http://localhost:5000/api
 
 Configured in `frontend/src/config/ads.js`:
 
-| Position | Usage |
-|----------|-------|
-| `top-banner` | Home & post detail header |
-| `bottom-banner` | Footer area |
-| `sidebar` | Sidebar on home & post pages |
-| `content-1` | In-content (first half) |
-| `content-2` | In-content (second half) |
-| `sticky-footer` | Fixed bottom banner |
-
-```jsx
-import Advertisement from './components/Advertisement';
-
-<Advertisement position="top-banner" />
-<Advertisement position="sidebar" />
-<Advertisement position="content-1" />
-```
-
 ## Production Build
 
 ### Backend
@@ -185,28 +118,15 @@ Set `VITE_API_URL` to your production API URL before building.
 
 ## Default Admin
 
-The first registered user is automatically assigned the `admin` role. Register an account to get admin access.
+The first registered user is automatically assigned the `admin` role. Register an acc
 
-## Security Features
-
-- JWT-based authentication with token blacklisting on logout
-- bcrypt password hashing (12 rounds)
-- Role-based access control (user/admin)
-- Input validation with express-validator
-- CORS configuration
-- Environment-based secrets
-- Protected and optional auth middleware
-
-## License
-
-MIT
 
 
 
 Default Admin Account (test)
 Field	Value
 Email
-demo@gmai.com
+demo@gmail.com
 Password
 123456
 Name
